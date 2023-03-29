@@ -24,11 +24,13 @@ class Album
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'albums', targetEntity: Artist::class)]
-    private Collection $artist;
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Track::class)]
     private Collection $tracks;
+
+    #[ORM\ManyToOne(inversedBy: 'albums')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Artist $artist = null;
 
     public function __construct()
     {
@@ -78,37 +80,7 @@ class Album
         return $this;
     }
 
-    /**
-     * @return Collection<int, Artist>
-     */
-    public function getArtist(): Collection
-    {
-        return $this->artist;
-    }
-
-    public function addArtist(Artist $artist): self
-    {
-        if (!$this->artist->contains($artist)) {
-            $this->artist->add($artist);
-            $artist->setAlbums($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArtist(Artist $artist): self
-    {
-        if ($this->artist->removeElement($artist)) {
-            // set the owning side to null (unless already changed)
-            if ($artist->getAlbums() === $this) {
-                $artist->setAlbums(null);
-            }
-        }
-
-        return $this;
-    }
-
-    
+       
 
     /**
      * @return Collection<int, Track>
@@ -144,6 +116,18 @@ class Album
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): self
+    {
+        $this->artist = $artist;
+
+        return $this;
     }
 
 }

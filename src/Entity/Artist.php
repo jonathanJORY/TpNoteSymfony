@@ -18,15 +18,16 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'artist')]
-    private ?Album $albums = null;
-
     #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'albums')]
     private Collection $genres;
+
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Album::class)]
+    private Collection $albums;
 
     public function __construct()
     {
         $this->genres = new ArrayCollection();
+        $this->albums = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,17 +47,7 @@ class Artist
         return $this;
     }
 
-    public function getAlbums(): ?Album
-    {
-        return $this->albums;
-    }
-
-    public function setAlbums(?Album $albums): self
-    {
-        $this->albums = $albums;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection<int, Genre>
@@ -87,6 +78,36 @@ class Artist
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Album>
+     */
+    public function getAlbums(): Collection
+    {
+        return $this->albums;
+    }
+
+    public function addAlbum(Album $album): self
+    {
+        if (!$this->albums->contains($album)) {
+            $this->albums->add($album);
+            $album->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbum(Album $album): self
+    {
+        if ($this->albums->removeElement($album)) {
+            // set the owning side to null (unless already changed)
+            if ($album->getArtist() === $this) {
+                $album->setArtist(null);
+            }
+        }
+
+        return $this;
     }
 
 
