@@ -1,11 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Artist{% endblock %}
+{% block title %}Nouvel Artiste{% endblock %}
 
 {% block body %}
-    <h1>Create new Artist</h1>
 
-    {{ include('artist/_form.html.twig') }}
+bash
 
-    <a href="{{ path('app_artist_index') }}">back to list</a>
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mt-4">Ajouter un nouvel artiste</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: 'Nom de l\'artiste',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez le nom de l\'artiste'
+                                }
+                            }) }}
+                            {# Ajoutez d'autres champs de formulaire ici si nécessaire #}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Ajouter l'artiste</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_artist_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
