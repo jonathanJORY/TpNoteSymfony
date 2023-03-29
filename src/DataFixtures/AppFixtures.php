@@ -67,7 +67,15 @@ class AppFixtures extends Fixture
         // Ajouter les albums de l'artiste
         $albums = $api->getArtistAlbums($artistData->id);
         foreach ($albums->items as $albumData) {
-            $album = $manager->getRepository(Album::class)->findOneBy(['name' => $albumData->name]);
+            //$album = $manager->getRepository(Album::class)->findOneBy(['name' => $albumData->name]);
+
+            $album = $manager->getRepository(Album::class)->createQueryBuilder('a')
+                ->where('LOWER(a.name) = LOWER(:name)')
+                ->setParameter('name', $albumData->name)
+                ->getQuery()
+                ->getOneOrNullResult();
+
+
             if(!$album){
                 $album = new Album();
                 $album->setName($albumData->name);
