@@ -29,12 +29,11 @@ class Album
     private Collection $tracks;
 
     #[ORM\ManyToOne(inversedBy: 'albums')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Artist $artist = null;
 
     public function __construct()
     {
-        $this->artist = new ArrayCollection();
         $this->tracks = new ArrayCollection();
     }
 

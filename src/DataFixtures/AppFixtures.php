@@ -84,8 +84,7 @@ class AppFixtures extends Fixture
             }
             // Créer un nouvel album
             
-
-            $album->addArtist($artist);
+            $artist->addAlbum($album);
             
             // Ajouter les genres de l'album
             // Ajouter les genres de l'album
@@ -98,7 +97,8 @@ class AppFixtures extends Fixture
                 $track = new Track();
                 $track->setName($trackData->name);
                 $track->setImage($albumData->images[0]->url);
-                $track->setAlbum($album);
+
+                $album->addTrack($track);
 
                 $manager->persist($track);
             }
