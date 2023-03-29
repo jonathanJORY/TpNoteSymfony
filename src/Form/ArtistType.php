@@ -14,6 +14,7 @@ class ArtistType extends AbstractType
         $builder
             ->add('name')
             ->add('genres')
+            ->add('albums')
         ;
     }
 

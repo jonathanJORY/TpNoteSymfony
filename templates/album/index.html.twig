@@ -30,7 +30,7 @@
                     {% for album in albums %}
                         <div class="col">
                             <div class="card bg-dark text-white album-card">
-                                <img src="{{ album.image) }}" class="card-img-top" alt="{{ album.name }}" style="max-height: 250px; object-fit: cover;">
+                                <img src="{{ album.image }}" class="card-img-top" alt="{{ album.name }}" style="max-height: 250px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ album.name }}</h5>
                                     <p class="card-text">{{ album.artist }}</p>
@@ -70,8 +70,7 @@
         }
 
         .album-card:hover {
-            background-color:
- #383838;
+            background-color: #383838;
     }
 </style>
 
