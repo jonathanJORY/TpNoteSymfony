@@ -21,6 +21,14 @@ class Artist
     #[ORM\ManyToOne(inversedBy: 'artist')]
     private ?Album $albums = null;
 
+    #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'albums')]
+    private Collection $genres;
+
+    public function __construct()
+    {
+        $this->genres = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +54,33 @@ class Artist
     public function setAlbums(?Album $albums): self
     {
         $this->albums = $albums;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): self
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres->add($genre);
+            $genre->addArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): self
+    {
+        if ($this->genres->removeElement($genre)) {
+            $genre->removeArtist($this);
+        }
 
         return $this;
     }
