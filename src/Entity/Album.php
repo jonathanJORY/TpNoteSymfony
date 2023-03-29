@@ -27,16 +27,12 @@ class Album
     #[ORM\OneToMany(mappedBy: 'albums', targetEntity: Artist::class)]
     private Collection $artist;
 
-    #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'albums')]
-    private Collection $genres;
-
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Track::class)]
     private Collection $tracks;
 
     public function __construct()
     {
         $this->artist = new ArrayCollection();
-        $this->genres = new ArrayCollection();
         $this->tracks = new ArrayCollection();
     }
 
@@ -111,32 +107,7 @@ class Album
         return $this;
     }
 
-    /**
-     * @return Collection<int, Genre>
-     */
-    public function getGenres(): Collection
-    {
-        return $this->genres;
-    }
-
-    public function addGenre(Genre $genre): self
-    {
-        if (!$this->genres->contains($genre)) {
-            $this->genres->add($genre);
-            $genre->addAlbum($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGenre(Genre $genre): self
-    {
-        if ($this->genres->removeElement($genre)) {
-            $genre->removeAlbum($this);
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, Track>
