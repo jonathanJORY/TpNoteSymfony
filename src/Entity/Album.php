@@ -30,10 +30,14 @@ class Album
     #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'albums')]
     private Collection $genres;
 
+    #[ORM\OneToMany(mappedBy: 'album', targetEntity: Track::class)]
+    private Collection $tracks;
+
     public function __construct()
     {
         $this->artist = new ArrayCollection();
         $this->genres = new ArrayCollection();
+        $this->tracks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +133,36 @@ class Album
     {
         if ($this->genres->removeElement($genre)) {
             $genre->removeAlbum($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Track>
+     */
+    public function getTracks(): Collection
+    {
+        return $this->tracks;
+    }
+
+    public function addTrack(Track $track): self
+    {
+        if (!$this->tracks->contains($track)) {
+            $this->tracks->add($track);
+            $track->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrack(Track $track): self
+    {
+        if ($this->tracks->removeElement($track)) {
+            // set the owning side to null (unless already changed)
+            if ($track->getAlbum() === $this) {
+                $track->setAlbum(null);
+            }
         }
 
         return $this;
