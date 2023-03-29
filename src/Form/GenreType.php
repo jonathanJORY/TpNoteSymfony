@@ -13,7 +13,7 @@ class GenreType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('albums')
+            ->add('artists')
         ;
     }
 

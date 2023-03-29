@@ -15,7 +15,6 @@ class AlbumType extends AbstractType
             ->add('name')
             ->add('releaseDate')
             ->add('image')
-            ->add('genres')
         ;
     }
 
