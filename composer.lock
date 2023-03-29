@@ -7,8 +7,12 @@
 <<<<<<< HEAD
     "content-hash": "a0c2d8137f91f8eac133b8006943b43e",
 =======
+<<<<<<< HEAD
+    "content-hash": "a0c2d8137f91f8eac133b8006943b43e",
+=======
     "content-hash": "35510acec113ae6b6a2ec9f4c1a679c3",
 >>>>>>> c29db76e4c733193c46f810ca01b78d703ab48dd
+>>>>>>> main
     "packages": [
         {
             "name": "doctrine/annotations",
