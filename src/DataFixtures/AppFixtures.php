@@ -61,11 +61,21 @@ class AppFixtures extends Fixture
             $artist->addGenre($genre);
 
         }
+        $manager->persist($artist);
+        $manager->flush();
 
         // Ajouter les albums de l'artiste
         $albums = $api->getArtistAlbums($artistData->id);
         foreach ($albums->items as $albumData) {
-            $album = $manager->getRepository(Album::class)->findOneBy(['name' => $albumData->name, 'releaseDate' => $albumData->release_date]);
+            //$album = $manager->getRepository(Album::class)->findOneBy(['name' => $albumData->name]);
+
+            $album = $manager->getRepository(Album::class)->createQueryBuilder('a')
+                ->where('LOWER(a.name) = LOWER(:name)')
+                ->setParameter('name', $albumData->name)
+                ->getQuery()
+                ->getOneOrNullResult();
+
+
             if(!$album){
                 $album = new Album();
                 $album->setName($albumData->name);
@@ -94,8 +104,14 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($album);
+            $manager->flush();
+
+
+        
         }
         $manager->persist($artist);
+        $manager->flush();
+
     }
 
     $manager->flush();
