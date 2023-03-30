@@ -1,11 +1,66 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}New Artist{% endblock %}
+{% block title %}Nouvel Artiste{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {# Ajoutez le lien vers le fichier CSS de select2 #}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Artist</h1>
+<div class="container">
+    <h1 class="text-center mt-4">Ajouter un nouvel artiste</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: 'Nom de l\'artiste',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez le nom de l\'artiste'
+                                }
+                            }) }}
+                            {{ form_row(form.image, {
+                                label: 'Image',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez l\'url de l\'image'
+                                }
+                            }) }}
+                            {{ form_row(form.genres, {
+                                label: 'Genres',
+                                'attr': {
+                                    'class': 'form-control mb-3 select2',
+                                    'multiple': 'multiple',
+                                    'id': 'genres-select'
+                            }}) }}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Ajouter l'artiste</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_artist_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
 
-    {{ include('artist/_form.html.twig') }}
+{% endblock %}
 
-    <a href="{{ path('app_artist_index') }}">back to list</a>
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#genres-select').select2();
+        });
+    </script>
 {% endblock %}
