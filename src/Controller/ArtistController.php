@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Repository\ArtistRepository;
@@ -49,22 +50,44 @@ class ArtistController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_artist_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
-    {
-        $form = $this->createForm(ArtistType::class, $artist);
-        $form->handleRequest($request);
+public function edit(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
+{
+    // 1. Créer une copie de la collection des genres existants de l'artiste
+    $originalGenres = new ArrayCollection();
+    foreach ($artist->getGenres() as $genre) {
+        $originalGenres->add($genre);
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $artistRepository->save($artist, true);
+    $form = $this->createForm(ArtistType::class, $artist);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // 2. Supprimer les relations de genre non présentes dans le formulaire
+        foreach ($originalGenres as $genre) {
+            if (!$artist->getGenres()->contains($genre)) {
+                $artist->removeGenre($genre);
+            }
         }
 
-        return $this->renderForm('artist/edit.html.twig', [
-            'artist' => $artist,
-            'form' => $form,
-        ]);
+        // 3. Ajouter les nouvelles relations de genre à partir du formulaire
+        foreach ($artist->getGenres() as $genre) {
+            if (!$originalGenres->contains($genre)) {
+                $artist->addGenre($genre);
+            }
+        }
+
+        // 4. Persister et envoyer les modifications à la base de données
+        $artistRepository->save($artist, true);
+
+        return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->renderForm('artist/edit.html.twig', [
+        'artist' => $artist,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_artist_delete', methods: ['POST'])]
     public function delete(Request $request, Artist $artist, ArtistRepository $artistRepository): Response

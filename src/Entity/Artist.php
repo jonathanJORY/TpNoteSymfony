@@ -63,8 +63,10 @@ class Artist
     public function addGenre(Genre $genre): self
     {
         if (!$this->genres->contains($genre)) {
-            $this->genres->add($genre);
-            $genre->addArtist($this);
+            $this->genres[] = $genre;
+            if (!$genre->getArtists()->contains($this)) {
+                $genre->addArtist($this);
+            }
         }
 
         return $this;
@@ -73,11 +75,13 @@ class Artist
     public function removeGenre(Genre $genre): self
     {
         if ($this->genres->removeElement($genre)) {
-            $genre->removeArtist($this);
+            if ($genre->getArtists()->contains($this)) {
+                $genre->removeArtist($this);
+            }
         }
-
         return $this;
     }
+
     public function __toString()
     {
         return $this->name;
