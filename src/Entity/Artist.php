@@ -18,7 +18,7 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'albums')]
+    #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'artists')]
     private Collection $genres;
 
     #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Album::class)]
