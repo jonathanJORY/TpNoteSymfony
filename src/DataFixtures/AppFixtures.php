@@ -45,8 +45,8 @@ class AppFixtures extends Fixture
         // Créer un nouvel artiste
         $artist = new Artist();
         $artist->setName($artistData->name);
+        $artist->setImage($artistData->images[0]->url);
         foreach ($artistData->genres as $genreData) {
-            dump($genreData);
             //dump("test");
             // Vérifier si le genre existe déjà dans la base de données
             $genre = $manager->getRepository(Genre::class)->findOneBy(['name' => $genreData]);
