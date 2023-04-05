@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+    <a class="nav-link btn btn-secondary" href="{{ path('app_login') }}">Se connecter</a>
+
+{% endblock %}
+
+
+{% block stylesheets %}
+<style>
+
+/* Align center the registration form */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Style the registration form title */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Style the form inputs and labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Style the registration form button */
+.btn {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}
+
+</style>
+{% endblock %}

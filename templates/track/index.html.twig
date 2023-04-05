@@ -50,18 +50,27 @@
     <header class="header"> 
         <nav class="navbar navbar-expand-lg fixed-top main-navbar">
             <div class="container-fluid">
-            <a class="navbar-brand" href="#">Mon site</a>
+            <a class="navbar-brand nav-link" href="#">Mon site</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Connexion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-secondary" href="#">Inscription</a>
-                </li>
+                        {% if not is_granted('ROLE_USER') %}
+                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                        {% else %}
+                            <a class="nav-link" href="#"></a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if is_granted('ROLE_USER') %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                        {% else %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_register') }}">Inscription</a>
+                        {% endif %}
+                       
+                    </li>
                 </ul>
             </div>
             </div>
@@ -73,10 +82,10 @@
         </div>
         <div class="track-list">
             {% for track in tracks %}
-                <div class="track-item" onmouseover="this.style.backgroundColor='#383838';" onmouseout="this.style.backgroundColor='#282828';">
-                    <span class="track-title">{{ track.name }}</span>
-                    <span class="track-artist">{{ track.album.artist }}</span>
-                    <span class="track-duration">{{ (track.duration / 1000 / 60)|round(2) }} min</span>
+                <div class="track-item">
+                    <span class="track-detail">{{ track.name }}</span>
+                    <span class="track-detail">{{ track.album.artist }}</span>
+                    <span class="track-duration">{{ track.getDurationMinuteString() }}</span>
                 </div>
             {% else %}
                 <p class="text-center text-white">Aucun enregistrement trouvé</p>
@@ -95,10 +104,11 @@
 {{ parent() }}
 <style>
     main {
-        background: linear-gradient(180deg, red, black);
-        padding-top: 60px;
-        min-height: 100vh; /* Ajouté pour étendre la hauteur minimale à 100% de la fenêtre du navigateur */
+    background: linear-gradient(180deg, #84796d, #121212 30%, #121212);
+    padding-top: 60px;
+    min-height: 100vh; /* Ajouté pour étendre la hauteur minimale à 100% de la fenêtre du navigateur */
     }
+
 
     .navigation-album{
         background-color: #000000;
@@ -111,29 +121,155 @@
         position: fixed;
     }
 
-    .album-card {
-        background-color: #282828;
-        transition: background-color 0.3s;
-    }
-
-    .album-card:hover {
-        background-color: #383838;
-    }
-
-    .album-row {
-        margin-right: -8px;
-        margin-left: -8px;
-    }
-
-    .col-lg-1-5 {
-        flex: 0 0 12%;
-        max-width: 
-        12%;
-    }
 
     body, button, input, select, textarea {
         font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts,), sans-serif;
     }
 
     .create-album-button {
-        display:
+        display:    flex;
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    .create-album-button:hover .svg-background {
+        background-color: #fff;
+    }
+
+    .nav-link{
+        color: #b3b3b3;
+    }
+
+    .create-album-button:hover {
+        color: #fff;
+    }
+
+    .svg-background {
+        background-color: #b3b3b3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    .btn-add-svg {
+        margin: 0;
+        fill: #b3b3b3;
+    }
+
+    .create-album-button:hover .btn-add-svg {
+        fill: #fff;
+    }
+
+    .logo_flopify{
+        display:flex;
+    }
+
+
+
+.main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1020;
+    width: 100%;
+    background-color: inherit;
+}
+
+@media (min-width: 768px) {
+    .main-navbar {
+        left: 300px;
+        width: calc(100% - 300px);
+    }
+}
+
+
+
+.liste-album {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  max-height: 80vh; /* limit the height to avoid overflow */
+}
+
+.album-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.album-cover {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+}
+
+.album-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.track-list {
+    width: 100%;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.track-item:hover {
+    background-color: #383838;
+}
+
+
+/* Add the gradient background */
+.album-info {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.track-detail{
+   color: #ffffff;
+    font-size: 14px; 
+}
+
+/* Style the duration */
+.track-duration {
+    color: #ffffff;
+    font-size: 14px;
+    margin-left: 20px;
+}
+</style>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    {{ parent() }}
+
+    $(document).ready(function() {
+    console.log("test");
+    const ul = document.querySelector('.liste-album');
+
+    ul.addEventListener('wheel', (evt) => {
+        evt.preventDefault();
+        ul.scrollBy({
+            top: evt.deltaY * 0.5,
+            behavior: 'smooth'
+        });
+    });
+});
+    
+</script>
+{% endblock %}
+

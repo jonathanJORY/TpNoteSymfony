@@ -77,4 +77,13 @@ class Track
 
         return $this;
     }
+
+    public function getDurationMinuteString(): ?String
+    {
+        $totalSeconds = $this->duration / 1000;
+        $minutes = floor($totalSeconds / 60);
+        $seconds = $totalSeconds % 60;
+    
+        return $minutes . "min" . $seconds . "s";
+    }
 }

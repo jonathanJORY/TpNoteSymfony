@@ -52,17 +52,26 @@
         <header class="header"> 
             <nav class="navbar navbar-expand-lg fixed-top main-navbar">
                 <div class="container-fluid">
-                <a class="navbar-brand" href="#">Mon site</a>
+                <a class="navbar-brand nav-link" href="#">Mon site</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Connexion</a>
+                        {% if not is_granted('ROLE_USER') %}
+                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                        {% else %}
+                            <a class="nav-link" href="#"></a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-secondary" href="#">Inscription</a>
+                        {% if is_granted('ROLE_USER') %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                        {% else %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_register') }}">Inscription</a>
+                        {% endif %}
+                       
                     </li>
                     </ul>
                 </div>
