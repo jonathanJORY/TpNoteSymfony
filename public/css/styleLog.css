@@ -20,7 +20,13 @@ body {
   text-align: center;
 }
 
+label {
+  color: #fff;
+}
 
+li{
+  color: orange;
+}
 .heading-section {
   color: #ffffff;
   font-size: 2rem;
