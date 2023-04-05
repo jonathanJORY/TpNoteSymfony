@@ -1,11 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Track{% endblock %}
+
+{% block title %}Ajouter une musique{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Track</h1>
+<div class="container">
+    <h1 class="text-center mt-4">Ajouter une musique</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: 'Nom de la musique',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez le nom de la musique'
+                                }
+                            }) }}
+                            {{ form_row(form.duration, {
+                                label: 'Durée',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez la durée de la musique en milliseconde'
+                                }
+                            }) }}
+                            {{ form_row(form.album, {
+                                label: 'Album',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                },
+                                'choice_attr': {
+                                    'selected': 'selected',
+                                },
+                            }) }}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Ajouter la musique</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
 
-    {{ include('track/_form.html.twig') }}
-
-    <a href="{{ path('app_track_index', {'albumid': album.id}) }}">back to list</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_track_index', {'albumid': album.id}) }}" class="btn btn-secondary">Retour à la liste des musiques</a>
+        </div>
+    </div>
+    
+</div>
 {% endblock %}
