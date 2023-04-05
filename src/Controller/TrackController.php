@@ -38,20 +38,25 @@ class TrackController extends AbstractController
     #[Route('/new/{albumid}', name: 'app_track_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TrackRepository $trackRepository, Album $albumid): Response
     {
+        
         $track = new Track();
+        if(is_null($track->getAlbum())){
+            $track->setAlbum($albumid);
+        }
         $form = $this->createForm(TrackType::class, $track);
         $form->handleRequest($request);
 
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $trackRepository->save($track, true);
 
-            return $this->redirectToRoute('app_track_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_track_index', array('albumid'=> $track->getAlbum()->getId()), Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('track/new.html.twig', [
             'track' => $track,
             'form' => $form,
-            'album' => $albumid
+            'album' => $albumid,
         ]);
     }
 
@@ -72,7 +77,7 @@ class TrackController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trackRepository->save($track, true);
 
-            return $this->redirectToRoute('app_track_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_track_index', array('albumid'=> $track->getAlbum()->getId()), Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('track/edit.html.twig', [
@@ -88,6 +93,6 @@ class TrackController extends AbstractController
             $trackRepository->remove($track, true);
         }
 
-        return $this->redirectToRoute('app_track_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_track_index',  array('albumid'=> $track->getAlbum()->getId()), Response::HTTP_SEE_OTHER);
     }
 }

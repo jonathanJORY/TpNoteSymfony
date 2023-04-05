@@ -13,7 +13,7 @@ class TrackType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('image')
+            ->add('duration')
             ->add('album')
         ;
     }

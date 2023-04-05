@@ -16,9 +16,6 @@ class Track
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
-
     #[ORM\ManyToOne(inversedBy: 'tracks')]
     private ?Album $album = null;
 
@@ -44,15 +41,9 @@ class Track
 
     public function getImage(): ?string
     {
-        return $this->image;
+        return $this->album->getImage();
     }
 
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
 
     public function getAlbum(): ?Album
     {

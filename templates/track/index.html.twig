@@ -81,15 +81,28 @@
             <h2 class="album-title">{{ album.name }}</h2>
         </div>
         <div class="track-list">
-            {% for track in tracks %}
-                <div class="track-item">
-                    <span class="track-detail">{{ track.name }}</span>
-                    <span class="track-detail">{{ track.album.artist }}</span>
-                    <span class="track-duration">{{ track.getDurationMinuteString() }}</span>
-                </div>
-            {% else %}
-                <p class="text-center text-white">Aucun enregistrement trouvé</p>
-            {% endfor %}
+            <ul class="list-track-item">
+                {% for track in tracks %}
+                    <li>
+                        <div class="track-item">
+                            <div class="track-detail">
+                                <span >{{ track.name }}</span>
+                                <span >{{ track.album.artist }}</span>
+                            </div>
+                            <div class="track-droite">
+                                <span class="track-duration">{{ track.getDurationMinuteString() }}</span>
+                                <a href="{{ path('app_track_edit', {'id' :track.id}) }}">
+                                    <img src="{{ asset('img/edit.png') }}" id="img-edit" style="max-width: 80%; height: 2rem;">
+                                </a>
+                                {{ include('track/_delete_form.html.twig') }}
+                                
+                            </div>
+                        </div>
+                    </li>
+                {% else %}
+                    <p class="text-center text-white">Aucun enregistrement trouvé</p>
+                {% endfor %}
+            <ul>
         </div>
 
     
@@ -231,6 +244,11 @@
     background-color: #383838;
 }
 
+.track-item:hover #img-edit{
+    background-color: white;
+    border-radius: 50%;
+    padding: 1px;
+}
 
 /* Add the gradient background */
 .album-info {
@@ -238,17 +256,42 @@
     border-radius: 10px;
 }
 
+.list-track-item{
+    list-style-type: none;
+}
 .track-detail{
    color: #ffffff;
-    font-size: 14px; 
+   font-size: 14px; 
 }
 
+.track-detail span{
+    display: block;}
 /* Style the duration */
+
 .track-duration {
     color: #ffffff;
     font-size: 14px;
-    margin-left: 20px;
 }
+
+.track-droite{
+    display:flex;
+    flex-wrap: nowrap;
+}
+
+#button-delete{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+#button-delete img {
+    max-width: 80%;
+    height: 2rem;
+    vertical-align: middle;
+}
+
 </style>
 
 {% endblock %}
