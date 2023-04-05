@@ -3,75 +3,289 @@
 {% block title %}Album index{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
-                <div class="sidebar-sticky pt-3">
-                    <h4 class="text-white mb-4">Navigation</h4>
-                    <ul class="nav flex-column">
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky pt-3 navigation-album" >
+                <div class="logo_flopify">
+                    <img src="{{ asset('img/logo_flopify.png') }}" style="max-width: 80%; height: 5rem;">
+                    <h4 class="text-white" style="margin-top: auto; margin-bottom: auto;">Flopify</h4>
+                </div>
+                
+                <ul class="nav flex-column overflow-auto flex-nowrap">
+
+                    <li class="nav-item">
+                        <button class="create-album-button">
+                        <div class="svg-background">
+                            <svg role="img" height="12" width="12" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon" class="btn-add-svg" fill="none">
+                                <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732l-7.5-4.33z" fill="#000"></path>
+                            </svg>
+                        </div>
+                        <a href="{{ path('app_album_index') }}" class="nav-link">Accueil</a>
+                    </button>
+                    </li>
+                    <li class="nav-item">
+                    <button class="create-album-button">
+                        <div class="svg-background">
+                            <svg role="img" height="12" width="12" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon" class="btn-add-svg" fill="none">
+                                <path d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75z" fill="#000"></path>
+                            </svg>
+                        </div>
+                        <a href="{{ path('app_album_new') }}" class="nav-link">Créer un album</a>
+                    </button>
+                    </li>
+                
+                    {# Add more navigation links here #}
+                </ul>
+                <h4 class="text-white mt-4 mb-4">Albums</h4>
+                <ul class="nav liste-album" >
+                    {% for album in albums %}
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Accueil</a>
+                            <a class="nav-link text-white" href="{{ path('app_track_index', {'albumid': album.id}) }}">{{ album.name }}</a>
                         </li>
-                        {# Add more navigation links here #}
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <header class="header"> 
+            <nav class="navbar navbar-expand-lg fixed-top main-navbar">
+                <div class="container-fluid">
+                <a class="navbar-brand" href="#">Mon site</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary" href="#">Inscription</a>
+                    </li>
                     </ul>
-                    <h4 class="text-white mt-4 mb-4">Albums</h4>
-                    <ul class="nav flex-column overflow-auto" style="height: 60vh;">
-                        {% for album in albums %}
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ path('app_album_show', {'id': album.id}) }}">{{ album.name }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                </div>
                 </div>
             </nav>
-
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    {% for album in albums %}
-                        <div class="col">
-                            <div class="card bg-dark text-white album-card">
-                                <img src="{{ album.image }}" class="card-img-top" alt="{{ album.name }}" style="max-height: 250px; object-fit: cover;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ album.name }}</h5>
-                                    <p class="card-text">{{ album.artist }}</p>
+        </header>
+            <div class="row g-2 album-row">
+                {% for album in albums %}
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-1-5">
+                        <a href="{{ path('app_track_index', {'albumid': album.id}) }}" class="text-decoration-none">
+                            <div class="card text-white album-card h-100">
+                                <img src="{{ album.image }}" class="card-img-top mx-auto" alt="{{ album.name }}" style="max-height: 250px; object-fit: cover; width: 80%; margin-top: 10px;">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-auto">{{ album.name }}</h5>
+                                    <p class="card-text mt-auto">{{ album.artist }}</p>
                                 </div>
                             </div>
-                        </div>
-                    {% else %}
-                        <div class="col-12">
-                            <p class="text-center text-white">No records found</p>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="text-center mt-4">
-                    <a href="{{ path('app_album_new') }}" class="btn btn-success">Create new</a>
-                </div>
-            </main>
-        </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <p class="text-center text-white">No records found</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </main>
     </div>
+</div>
+
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <style>
-        body {
-            background-color: #181818;
-        }
-
-        .sidebar {
-            height: 100vh;
-            padding-right: 0;
-            padding-left: 0;
-        }
-
-        .album-card {
-            background-color: #282828;
-            transition: background-color 0.3s;
-        }
-
-        .album-card:hover {
-            background-color: #383838;
+{{ parent() }}
+<style>
+    main {
+        background-color: #121212;
+        padding-top: 60px;
     }
+
+
+    .navigation-album{
+        background-color: #000000;
+    }
+
+
+    .sidebar {
+        height: 100vh;
+        padding-right: 0;
+        padding-left: 0;
+        position: fixed;
+    }
+
+    .album-card {
+        background-color: #282828;
+        transition: background-color 0.3s;
+    }
+
+    .album-card:hover {
+        background-color: #383838;
+    }
+
+    .album-row {
+        margin-right: -8px;
+        margin-left: -8px;
+    }
+
+    .col-lg-1-5 {
+        flex: 0 0 12%;
+        max-width: 
+        12%;
+}
+
+body, button, input, select, textarea {
+    font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts,), sans-serif;
+}
+
+.create-album-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.create-album-button:hover .svg-background {
+    background-color: #fff;
+}
+
+.create-album-button:hover .nav-link {
+    color: #fff;
+}
+
+.svg-background {
+    background-color: #b3b3b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.btn-add-svg {
+    margin: 0;
+}
+
+.btn-add-svg {
+    fill: #b3b3b3;
+}
+
+.create-album-button:hover .btn-add-svg {
+    fill: #fff;
+}
+
+.nav-link {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+.logo_flopify{
+    display:flex;
+}
+
+
+.new-navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 200px);
+  height: 60px;
+  background-color: black;
+  z-index: 999;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/*...*/
+.main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1020;
+    width: 100%;
+    background-color: inherit;
+}
+
+@media (min-width: 768px) {
+    .main-navbar {
+        left: 300px;
+        width: calc(100% - 300px);
+    }
+}
+/*...*/
+
+
+
+.new-navbar ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.new-navbar li {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.new-navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.new-navbar button {
+  background-color: #b3b3b3;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.new-navbar button:hover {
+  background-color: white;
+  color: black;
+}
+
+.liste-album {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  max-height: 80vh; /* limitez la hauteur pour éviter le débordement */
+}
+
+
 </style>
 
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+<script>
+    {{ parent() }}
+
+    $(document).ready(function() {
+    console.log("test");
+    const ul = document.querySelector('.liste-album');
+
+    ul.addEventListener('wheel', (evt) => {
+        evt.preventDefault();
+        ul.scrollBy({
+            top: evt.deltaY * 0.5,
+            behavior: 'smooth'
+        });
+    });
+});
+
+</script>
 {% endblock %}

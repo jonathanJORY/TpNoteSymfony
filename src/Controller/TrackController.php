@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Track;
+
+use App\Entity\Album;
+use App\Controller\AlbumController;
+
 use App\Form\TrackType;
 use App\Repository\TrackRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/track')]
 class TrackController extends AbstractController
 {
-    #[Route('/', name: 'app_track_index', methods: ['GET'])]
-    public function index(TrackRepository $trackRepository): Response
+    #[Route('/{albumid}', name: 'app_track_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $entityManager, $albumid): Response
     {
+        $albumid = intval($albumid);
+        $albums = $entityManager
+            ->getRepository(Album::class)
+            ->findAll();
+        $album = $entityManager->getRepository(Album::class)->find($albumid);
+
+        $tracks = $album->getTracks();
         return $this->render('track/index.html.twig', [
-            'tracks' => $trackRepository->findAll(),
+            'tracks' => $tracks,
+            'album' => $album,
+            'albums' => $albums
         ]);
     }
 
