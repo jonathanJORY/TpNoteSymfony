@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
+        "guzzlehttp/guzzle": "^7.5",
         "jwilsson/spotify-web-api-php": "^5.6",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "6.2.*",

@@ -7,5 +7,5 @@
 
     {{ include('track/_form.html.twig') }}
 
-    <a href="{{ path('app_track_index') }}">back to list</a>
+    <a href="{{ path('app_track_index', {'albumid': album.id}) }}">back to list</a>
 {% endblock %}

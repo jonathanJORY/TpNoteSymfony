@@ -35,8 +35,8 @@ class TrackController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_track_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TrackRepository $trackRepository): Response
+    #[Route('/new/{albumid}', name: 'app_track_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, TrackRepository $trackRepository, Album $albumid): Response
     {
         $track = new Track();
         $form = $this->createForm(TrackType::class, $track);
@@ -51,6 +51,7 @@ class TrackController extends AbstractController
         return $this->renderForm('track/new.html.twig', [
             'track' => $track,
             'form' => $form,
+            'album' => $albumid
         ]);
     }
 

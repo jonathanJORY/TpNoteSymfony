@@ -22,6 +22,9 @@ class Track
     #[ORM\ManyToOne(inversedBy: 'tracks')]
     private ?Album $album = null;
 
+    #[ORM\Column]
+    private ?int $duration = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Track
     public function setAlbum(?Album $album): self
     {
         $this->album = $album;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }
