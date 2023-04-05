@@ -1,4 +1,68 @@
 <form method="post" action="{{ path('app_album_delete', {'id': album.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
-    <button class="btn">Delete</button>
+    <button id="btn-delete-album" class="noselect"><span class="text">Delete</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
 </form>
+<style>
+
+#btn-delete-album {
+ width: 150px;
+ height: 50px;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ background: red;
+ border: none;
+ border-radius: 5px;
+ box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+ background: #e62222;
+}
+
+#btn-delete-album, #btn-delete-album span {
+ transition: 200ms;
+}
+
+#btn-delete-album .text {
+ transform: translateX(35px);
+ color: white;
+ font-weight: bold;
+}
+
+#btn-delete-album .icon {
+ position: absolute;
+ border-left: 1px solid #c41b1b;
+ transform: translateX(110px);
+ height: 40px;
+ width: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+#btn-delete-album svg {
+ width: 15px;
+ fill: #eee;
+}
+
+#btn-delete-album:hover {
+ background: #ff3636;
+}
+
+#btn-delete-album:hover .text {
+ color: transparent;
+}
+
+#btn-delete-album:hover .icon {
+ width: 150px;
+ border-left: none;
+ transform: translateX(0);
+}
+
+#btn-delete-album:focus {
+ outline: none;
+}
+
+#btn-delete-album:active .icon svg {
+ transform: scale(0.8);
+}
+
+</style>
