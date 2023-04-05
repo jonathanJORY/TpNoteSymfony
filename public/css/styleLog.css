@@ -1,0 +1,107 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+
+/* Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* General styles */
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #121212;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.heading-section {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.login-wrap {
+  background-color: #181818;
+  border-radius: 5px;
+  padding: 20px 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.login-wrap img {
+  display: block;
+  width: 100px;
+  margin: 0 auto 20px;
+}
+
+.form-control {
+  background-color: #323232;
+  border: none;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.25);
+}
+
+.form-group a {
+  color: #1ed760;
+  text-decoration: none;
+}
+
+.form-group a:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background-color: #1ed760;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #1db954;
+  box-shadow: 0 0 5px rgba(30, 215, 96, 0.3);
+}
+
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  background-color: #d32f2f;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  background-color: #d32f2f;
+}
