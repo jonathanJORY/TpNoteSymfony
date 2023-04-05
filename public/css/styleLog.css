@@ -1,27 +1,7 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
 
-/* Reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
+
 
 /* General styles */
 body {
@@ -30,10 +10,16 @@ body {
 }
 
 .container {
+
   max-width: 960px;
-  margin: 0 auto;
+  margin-top: 20vh;
   padding: 0 15px;
 }
+
+.form-group {
+  text-align: center;
+}
+
 
 .heading-section {
   color: #ffffff;
@@ -53,6 +39,12 @@ body {
   display: block;
   width: 100px;
   margin: 0 auto 20px;
+}
+
+.login-wrap h3 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 30px;
 }
 
 .form-control {

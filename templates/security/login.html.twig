@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se Connecter{% endblock %}
 
 {% block body %}
  <link rel="stylesheet" href="{{ asset('css/styleLog.css') }}">
@@ -18,11 +18,6 @@
 <section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Connectez-vous</h2>
-				</div>
-			</div>
-			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-5">
 					<div class="login-wrap p-4 p-md-5">
 		      	<img src="{{ asset('img/flopify_vert.png') }}">
@@ -37,13 +32,13 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 	            </div>
 	            <div class="form-group d-md-flex">
-	            	<div class="w-50">
+
 	            		<a href="{{ path('app_register') }}">Pas encore de compte ?
-								</div>
+						
 								</div>
 	            <div class="form-group">
 	            	<button type="submit" class="btn btn-primary rounded submit p-3 px-5">Se Connecter</button>
-					<div class="w-50 text-md-right">
+					<div class="w-50 text-md-right mb-2">
 									
 								
 	            </div>
