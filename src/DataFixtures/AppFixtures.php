@@ -145,7 +145,6 @@ foreach ($artists as $artistData) {
             // Create a new track entity
             $track = new Track();
             $track->setName($trackData->name);
-            $track->setImage($albumData->images[0]->url);
             $track->setDuration($trackData->duration_ms);
 
             // Add the track to the album and the manager

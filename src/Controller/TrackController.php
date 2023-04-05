@@ -50,7 +50,7 @@ class TrackController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trackRepository->save($track, true);
 
-            return $this->redirectToRoute('app_track_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_track_index', array('albumid'=> $track->getAlbum()->getId()), Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('track/new.html.twig', [
