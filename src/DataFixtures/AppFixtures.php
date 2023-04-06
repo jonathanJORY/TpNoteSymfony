@@ -116,9 +116,13 @@ foreach ($artists as $artistData) {
             $track->setName($trackData->name);
             $track->setDuration($trackData->duration_ms);
 
+            // Set the Spotify URI for the track
+            $track->setSpotifyUri($trackData->uri);
+
             // Add the track to the album and the manager
             $album->addTrack($track);
             $manager->persist($track);
+
         }
     }
 }

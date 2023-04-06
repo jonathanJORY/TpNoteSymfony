@@ -22,6 +22,10 @@ class Track
     #[ORM\Column]
     private ?int $duration = null;
 
+    #[ORM\Column(length: 255, nullable: false, options: ["default" => ""])]
+    private ?string $spotifyUri = null;
+    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,6 +46,18 @@ class Track
     public function getImage(): ?string
     {
         return $this->album->getImage();
+    }
+
+    public function getSpotifyUri(): ?string
+    {
+        return $this->spotifyUri;
+    }
+
+    public function setSpotifyUri(?string $spotifyUri): self
+    {
+        $this->spotifyUri = $spotifyUri;
+
+        return $this;
     }
 
 

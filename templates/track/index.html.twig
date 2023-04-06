@@ -3,6 +3,8 @@
 {% block title %}Track index{% endblock %}
 
 {% block body %}
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block sidebar">
@@ -78,6 +80,9 @@
                                 <span >{{ track.album.artist }}</span>
                             </div>
                             <div class="track-droite">
+                                <button id="play-{{ track.id }}" class="play-button" onclick="playSpotifyTrack('{{ track.spotifyUri }}')">
+                                    <img src="{{ asset('img/play-icon.png') }}" alt="Play">
+                                </button>
                                 <span class="track-duration">{{ track.getDurationMinuteString() }}</span>
                                 <a href="{{ path('app_track_edit', {'id' :track.id}) }}">
                                     <img src="{{ asset('img/edit.png') }}" id="img-edit" style="max-width: 80%; height: 2rem;">
@@ -319,6 +324,21 @@
 color:black;
 }
 
+.play-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    margin-right: 10px;
+}
+
+.play-button img {
+    max-width: 80%;
+    height: 2rem;
+    vertical-align: middle;
+}
+
 </style>
 
 {% endblock %}
@@ -339,7 +359,49 @@ color:black;
         });
     });
 });
-    
+function playAudio(trackId) {
+    const audio = document.getElementById(`audio-${trackId}`);
+    const playButton = document.getElementById(`play-${trackId}`);
+
+    if (audio.paused) {
+        audio.play();
+        playButton.innerHTML = '<img src="{{ asset('img/pause-icon.png') }}" alt="Pause">';
+    } else {
+        audio.pause();
+        playButton.innerHTML = '<img src="{{ asset('img/play-icon.png') }}" alt="Play">';
+    }
+}
+function playSpotifyTrack(spotifyUri) {
+    if (window.Spotify) {
+        const { Player } = Spotify;
+        const token = 'your_access_token'; // Remplacez par votre jeton d'accès Spotify
+
+        const player = new Player({
+            name: 'Flopify Web Player',
+            getOAuthToken: (cb) => { cb(token); }
+        });
+
+        player.addListener('ready', ({ device_id }) => {
+            console.log('Ready with Device ID', device_id);
+
+            // Lecture de la piste
+            fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+                method: 'PUT',
+                body: JSON.stringify({ uris: [spotifyUri] }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+        });
+
+        player.connect();
+    } else {
+        console.error('Spotify SDK not loaded');
+    }
+}
+
+
 </script>
 {% endblock %}
 
