@@ -1,11 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Genre{% endblock %}
+
+{% block title %}Ajouter un genre{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Genre</h1>
+<div class="container">
+    <h1 class="text-center mt-4">Ajotuer un genre</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: 'Nom du genre',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez le nom du genre'
+                                }
+                            }) }}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Ajouter le genre</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
 
-    {{ include('genre/_form.html.twig') }}
-
-    <a href="{{ path('app_genre_index') }}">back to list</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_genre_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+    
+</div>
 {% endblock %}

@@ -1,14 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Genre{% endblock %}
 
-{% block body %}
-    <h1>Edit Genre</h1>
+{% block title %}Modifier le genre{% endblock %}
 
-    {{ include('genre/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_genre_index') }}">back to list</a>
-
-    {{ include('genre/_delete_form.html.twig') }}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}
 
+{% block body %}
+<div class="container">
+    <h1 class="text-center mt-4">Modifier un genre</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: 'Nom du genre',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': 'Entrez le nom du genre'
+                                }
+                            }) }}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Mettre à jour le genre</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+        <div class="col text-center mb-4">
+            {{ include('genre/_delete_form.html.twig') }}
+    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_genre_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
