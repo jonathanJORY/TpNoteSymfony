@@ -1,16 +1,85 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Artist index{% endblock %}
 
-
 {% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky pt-3 navigation-album" >
+                <div class="logo_flopify">
+                    <img src="{{ asset('img/logo_flopify.png') }}" style="max-width: 80%; height: 5rem;">
+                    <h4 class="text-white" style="margin-top: auto; margin-bottom: auto;">Flopify</h4>
+                </div>
+                            <ul class="nav flex-column overflow-auto flex-nowrap">
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-
-<div class="container">
+                <li class="nav-item">
+                    <button class="create-album-button">
+                    <div class="svg-background">
+                        <svg role="img" height="12" width="12" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon" class="btn-add-svg" fill="none">
+                            <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732l-7.5-4.33z" fill="#000"></path>
+                        </svg>
+                    </div>
+                    <a href="{{ path('app_album_index') }}" class="nav-link">Accueil</a>
+                </button>
+                </li>
+                <li class="nav-item">
+                        <button class="create-album-button">
+                            <div class="svg-background">
+                                <svg role="img" height="12" width="12" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon" class="btn-add-svg" fill="none">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-1.33 0-2.42-.26-3.25-.67C6.28 12.62 8 10.67 8 10.67s1.72 1.95 3.25 3.16c-.83.41-1.92.67-3.25.67zm0-11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" fill="#000"></path>
+                                </svg>
+                            </div>
+                            <a href="{{ path('app_artist_index') }}" class="nav-link">Voir les artistes</a>
+                        </button>
+                    </li>
+                <li class="nav-item">
+                <button class="create-album-button">
+                    <div class="svg-background">
+                        <svg role="img" height="12" width="12" aria-hidden="true" viewBox="0 0 16 16" data-encore-id="icon" class="btn-add-svg" fill="none">
+                            <path d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75z" fill="#000"></path>
+                        </svg>
+                    </div>
+                    <a href="{{ path('app_artist_new') }}" class="btn btn-success">Ajouter un artiste</a>
+                </button>
+                </li>
+            
+                {# Add more navigation links here #}
+            </ul>
+            
+        </div>
+    </nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <header class="header"> 
+        <nav class="navbar navbar-expand-lg fixed-top main-navbar">
+            <div class="container-fluid">
+            <a class="navbar-brand nav-link" href="#">Mon site</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                        {% if not is_granted('ROLE_USER') %}
+                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                        {% else %}
+                            <a class="nav-link" href="#"></a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if is_granted('ROLE_USER') %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_logout') }}">Deconnexion</a>
+                        {% else %}
+                             <a class="nav-link btn btn-secondary" href="{{ path('app_register') }}">Inscription</a>
+                        {% endif %}
+                       
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    </header>
+        <div class="container">
     <h1 class="text-center mt-4">Artistes</h1>
     <div class="row mt-5">
         {% for artist in artists %}
@@ -29,11 +98,257 @@
             </div>
         {% endfor %}
     </div>
-    <div class="row mt-4">
-        <div class="col text-center">
-            <a href="{{ path('app_artist_new') }}" class="btn btn-success">Ajouter un artiste</a>
-        </div>
-    </div>
+
+</div>
+
+    
+        
+    </main>
+</div>
 </div>
 
 {% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    main {
+    background: linear-gradient(180deg, #84796d, #121212 30%, #121212);
+    padding-top: 60px;
+    min-height: 100vh; /* Ajouté pour étendre la hauteur minimale à 100% de la fenêtre du navigateur */
+    }
+
+
+    .navigation-album{
+        background-color: #000000;
+    }
+
+    .sidebar {
+        height: 100vh;
+        padding-right: 0;
+        padding-left: 0;
+        position: fixed;
+        background-color: #000000;
+    }
+
+
+    body, button, input, select, textarea {
+        font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts,), sans-serif;
+    }
+
+    .create-album-button {
+        display:    flex;
+        align-items: center;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    .create-album-button:hover .svg-background {
+        background-color: #fff;
+    }
+
+    .nav-link{
+        color: #b3b3b3;
+    }
+
+    .create-album-button:hover {
+        color: #fff;
+    }
+
+    .svg-background {
+        background-color: #b3b3b3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    .btn-add-svg {
+        margin: 0;
+        fill: #b3b3b3;
+    }
+
+    .create-album-button:hover .btn-add-svg {
+        fill: #fff;
+    }
+
+    .logo_flopify{
+        display:flex;
+    }
+
+
+
+.main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1020;
+    width: 100%;
+    background-color: inherit;
+}
+
+@media (min-width: 768px) {
+    .main-navbar {
+        left: 300px;
+        width: calc(100% - 300px);
+    }
+}
+
+
+
+.liste-album {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  max-height: 80vh; /* limit the height to avoid overflow */
+}
+
+
+.album-cover {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+}
+
+.album-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.track-list {
+    width: 100%;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.track-item:hover {
+    background-color: #383838;
+}
+
+.track-item:hover #img-edit{
+    background-color: white;
+    border-radius: 50%;
+    padding: 1px;
+}
+
+.album-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.album-info-droite {
+    display: flex;
+}
+
+.list-track-item{
+    list-style-type: none;
+}
+.track-detail{
+   color: #ffffff;
+   font-size: 14px; 
+}
+
+.track-detail span{
+    display: block;}
+/* Style the duration */
+
+.track-duration {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.track-droite{
+    display:flex;
+    flex-wrap: nowrap;
+}
+
+#button-delete{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+#button-delete img {
+    max-width: 80%;
+    height: 2rem;
+    vertical-align: middle;
+}
+
+#btn-edit-album {
+ display: inline-block;
+ padding: 0.9rem 1.8rem;
+ font-size: 16px;
+ font-weight: 700;
+ color: white;
+ border: 3px solid rgb(176, 242, 182);
+ cursor: pointer;
+ position: relative;
+ background-color: transparent;
+ text-decoration: none;
+ overflow: hidden;
+ z-index: 1;
+ font-family: inherit;
+}
+
+#btn-edit-album::before {
+
+ content: "";
+ position: absolute;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgb(176, 242, 182);
+ transform: translateX(-100%);
+ transition: all .3s;
+ z-index: -1;
+}
+
+#btn-edit-album:hover::before {
+ transform: translateX(0);
+}
+
+#btn-edit-album:hover{
+color:black;
+}
+
+</style>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    {{ parent() }}
+
+    $(document).ready(function() {
+    console.log("test");
+    const ul = document.querySelector('.liste-album');
+
+    ul.addEventListener('wheel', (evt) => {
+        evt.preventDefault();
+        ul.scrollBy({
+            top: evt.deltaY * 0.5,
+            behavior: 'smooth'
+        });
+    });
+});
+    
+</script>
+{% endblock %}
+
