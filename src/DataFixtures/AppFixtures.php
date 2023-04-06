@@ -1,56 +1,11 @@
 <?php
-/*
+
+
 namespace App\DataFixtures;
 
-
 use App\Entity\Album;
-use App\Entity\Artist;
 use App\Entity\Genre;
-use App\Entity\Track;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use SpotifyWebAPI\Session;
-use SpotifyWebAPI\SpotifyWebAPI;
 
-
-class AppFixtures extends Fixture
-{
-    public function load(ObjectManager $manager): void
-{
-
-    // Set up CURL request to get access token
-$ch = curl_init();
-curl_setopt_array($ch, [
-    CURLOPT_URL => 'https://accounts.spotify.com/api/token',
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => http_build_query([
-        'grant_type' => 'client_credentials',
-        'client_id' => 'ea11311d67e048869c710972a24e46be',
-        'client_secret' => '358d7f3fdc2e4353b8b4e9e0af646faf',
-    ]),
-    CURLOPT_RETURNTRANSFER => true,
-]);
-$response = curl_exec($ch);
-curl_close($ch);
-
-// Decode the response JSON
-$data = json_decode($response, true);
-
-// Get the access token from the response
-$accessToken = $data['access_token'];
-
-    // Set up CURL request to get a list of 20 random artists
-
-
-$api = new SpotifyWebAPI();
-$api->setAccessToken($accessToken);
-
-
-<?php
-*/
-namespace App\DataFixtures;
-
-use App\Entity\Album;
 use App\Entity\Artist;
 use App\Entity\Track;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -117,6 +72,20 @@ foreach ($artists as $artistData) {
     $artist = new Artist();
     $artist->setName($artistData['name']);
     $artist->setImage($artistData['images'][0]['url']);
+    foreach ($artistData['genres'] as $genreData) {
+        // Vérifier si le genre existe déjà dans la base de données
+        $genre = $manager->getRepository(Genre::class)->findOneBy(['name' => $genreData]);
+
+        // S'il n'existe pas, le créer
+        if (!$genre) {
+            $genre = new Genre();
+            $genre->setName($genreData);
+            $manager->persist($genre);
+        }
+
+        $artist->addGenre($genre);
+
+    }
 
     // Add the artist to the manager and flush
     $manager->persist($artist);
