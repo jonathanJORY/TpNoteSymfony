@@ -1,13 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Album{% endblock %}
+
+{% block title %}Modifier l'album{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Album</h1>
+<div class="container">
+    <h1 class="text-center mt-4">Modifier l'album</h1>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card artist-card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                            {{ form_row(form.name, {
+                                label: "Nom de l'album",
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': "Entrez le nom de l'album"
+                                }
+                            }) }}
+                            {{ form_row(form.releaseDate, {
+                                label: 'Date de création',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': "Entrez la date de création de l'album"
+                                }
+                            }) }}
+                            {{ form_row(form.image, {
+                                label: "Url de l'image de l'album",
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                    'placeholder': "Entrez l'url de l'image de l'album"
+                                }
+                            }) }}
+                            {{ form_row(form.artist, {
+                                label: 'Artist',
+                                'attr': {
+                                    'class': 'form-control mb-3',
+                                },
+                                'choice_attr': {
+                                    'selected': 'selected',
+                                },
+                            }) }}
+                            <button type="submit" class="btn btn-outline-light btn-rounded">Mettre à jour l'album</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
 
-    {{ include('album/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_album_index') }}">back to list</a>
-
-    {{ include('album/_delete_form.html.twig') }}
+        <div class="col text-center mb-4">
+            {{ include('album/_delete_form.html.twig') }}
+        </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a href="{{ path('app_album_index') }}" class="btn btn-secondary">Retour à la liste des album</a>
+        </div>
+    </div>
+    
+</div>
 {% endblock %}
