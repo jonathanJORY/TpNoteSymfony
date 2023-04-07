@@ -70,6 +70,9 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         {{ include('nav_bar_haut.html.twig') }}
             <div class="row g-2 album-row">
+                <div class="pagination">
+                    {{ knp_pagination_render(albums) }}
+                </div>
                 {% for album in albums %}
                     <div class="col-6 col-sm-4 col-md-3 col-lg-1-5">
                         <a href="{{ path('app_track_index', {'albumid': album.id}) }}" class="text-decoration-none">
@@ -87,6 +90,7 @@
                         <p class="text-center text-white">No records found</p>
                     </div>
                 {% endfor %}
+
             </div>
         </main>
     </div>
@@ -95,114 +99,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
-<style>
-    main {
-        background-color: #121212;
-        padding-top: 60px;
-    }
-
-
-    .navigation-album{
-        background-color: #000000;
-    }
-
-
-    .sidebar {
-        height: 100vh;
-        padding-right: 0;
-        padding-left: 0;
-        position: fixed;
-    }
-
-    .album-card {
-        background-color: #282828;
-        transition: background-color 0.3s;
-    }
-
-    .album-card:hover {
-        background-color: #383838;
-    }
-
-    .album-row {
-        margin-right: -8px;
-        margin-left: -8px;
-    }
-
-    .col-lg-1-5 {
-        flex: 0 0 12%;
-        max-width: 
-        12%;
-}
-
-body, button, input, select, textarea {
-    font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts,), sans-serif;
-}
-
-.create-album-button {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.create-album-button:hover .svg-background {
-    background-color: #fff;
-}
-
-.create-album-button:hover .nav-link {
-    color: #fff;
-}
-
-.svg-background {
-    background-color: #b3b3b3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-.btn-add-svg {
-    margin: 0;
-}
-
-.btn-add-svg {
-    fill: #b3b3b3;
-}
-
-.create-album-button:hover .btn-add-svg {
-    fill: #fff;
-}
-
-.nav-link {
-    color: #b3b3b3;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-
-.logo_flopify{
-    display:flex;
-}
-
-
-
-
-
-.liste-album {
-  display: flex;
-  flex-wrap: wrap;
-  overflow-y: auto;
-  max-height: 80vh; /* limitez la hauteur pour éviter le débordement */
-}
-
-
-</style>
-
+<link rel="stylesheet" href="{{ asset('css/albumIndex.css') }}">
 {% endblock %}
 
 

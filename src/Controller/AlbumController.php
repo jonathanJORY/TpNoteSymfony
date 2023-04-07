@@ -9,17 +9,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 #[Route('/album')]
 class AlbumController extends AbstractController
 {
     #[Route('/', name: 'app_album_index', methods: ['GET'])]
-    public function index(AlbumRepository $albumRepository): Response
+    public function index(Request $request, AlbumRepository $albumRepository, ContainerInterface $container): Response
     {
+        $albums = $albumRepository->findAll();
+        $paginator  = $container->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $albums,
+            $request->query->getInt('page', 1),
+            24
+        );
+
         return $this->render('album/index.html.twig', [
-            'albums' => $albumRepository->findAll(),
+            'albums' => $pagination,
         ]);
     }
+
 
     #[Route('/new', name: 'app_album_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AlbumRepository $albumRepository): Response

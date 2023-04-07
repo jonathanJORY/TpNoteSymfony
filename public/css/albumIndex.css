@@ -1,0 +1,130 @@
+main {
+    background-color: #121212;
+    padding-top: 60px;
+    height: 100vh;
+}
+
+
+.navigation-album{
+    background-color: #000000;
+}
+
+
+.sidebar {
+    height: 100vh;
+    padding-right: 0;
+    padding-left: 0;
+    position: fixed;
+    background-color: #000000;
+}
+
+.album-card {
+    background-color: #282828;
+    transition: background-color 0.3s;
+}
+
+.album-card:hover {
+    background-color: #383838;
+}
+
+.album-row {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.col-lg-1-5 {
+    flex: 0 0 12%;
+    max-width: 
+    12%;
+}
+
+body, button, input, select, textarea {
+font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts,), sans-serif;
+}
+
+.create-album-button {
+display: flex;
+align-items: center;
+background-color: transparent;
+border: none;
+cursor: pointer;
+padding: 8px;
+}
+
+.create-album-button:hover .svg-background {
+background-color: #fff;
+}
+
+.create-album-button:hover .nav-link {
+color: #fff;
+}
+
+.svg-background {
+background-color: #b3b3b3;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 20px;
+height: 20px;
+margin-right: 5px;
+}
+
+.btn-add-svg {
+margin: 0;
+}
+
+.btn-add-svg {
+fill: #b3b3b3;
+}
+
+.create-album-button:hover .btn-add-svg {
+fill: #fff;
+}
+
+.nav-link {
+color: #b3b3b3;
+text-decoration: none;
+font-size: 14px;
+}
+
+
+.logo_flopify{
+display:flex;
+}
+
+
+
+
+
+.liste-album {
+display: flex;
+flex-wrap: wrap;
+overflow-y: auto;
+max-height: 80vh; /* limitez la hauteur pour éviter le débordement */
+}
+
+
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination .page-item {
+    padding: 10px;
+    border-radius: 30px;
+    transition: background-color 0.3s;
+    margin-right: 5px;
+}
+
+.pagination .page-item:hover {
+    background-color: #1db954;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #1db954;
+    border-color: #1db954;
+}
+

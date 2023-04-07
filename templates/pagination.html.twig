@@ -1,0 +1,27 @@
+<nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if albums.currentPageNumber != 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ knp_pagination_url(albums.currentPageNumber-1) }}">«</a>
+                </li>
+            {% endif %}
+
+            {% for page in albums.pagesInRange %}
+                {% if page == albums.currentPageNumber %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ knp_pagination_url(page) }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if albums.currentPageNumber != albums.pageCount %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ knp_pagination_url(albums.currentPageNumber+1) }}">»</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
