@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Callback{% endblock %}
+
+{% block body %}
+    <h1>Callback</h1>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/callback.js') }}"></script>
+{% endblock %}

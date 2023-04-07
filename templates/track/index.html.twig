@@ -344,62 +344,89 @@ color:black;
 {% endblock %}
 
 {% block javascripts %}
+
+<script async src="https://sdk.scdn.co/spotify-player.js"></script>
 <script>
-    {{ parent() }}
 
-    $(document).ready(function() {
-    console.log("test");
-    const ul = document.querySelector('.liste-album');
 
-    ul.addEventListener('wheel', (evt) => {
-        evt.preventDefault();
-        ul.scrollBy({
-            top: evt.deltaY * 0.5,
-            behavior: 'smooth'
-        });
-    });
-});
-function playAudio(trackId) {
-    const audio = document.getElementById(`audio-${trackId}`);
-    const playButton = document.getElementById(`play-${trackId}`);
-
-    if (audio.paused) {
-        audio.play();
-        playButton.innerHTML = '<img src="{{ asset('img/pause-icon.png') }}" alt="Pause">';
-    } else {
-        audio.pause();
-        playButton.innerHTML = '<img src="{{ asset('img/play-icon.png') }}" alt="Play">';
+    if (window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.substr(1));
+        if (hashParams.has('access_token')) {
+            window.opener.postMessage({ access_token: hashParams.get('access_token') }, window.location.origin);
+            window.close();
+        }
     }
-}
-function playSpotifyTrack(spotifyUri) {
-    if (window.Spotify) {
-        const { Player } = Spotify;
-        const token = 'your_access_token'; // Remplacez par votre jeton d'accès Spotify
 
-        const player = new Player({
+
+async function fetchAccessToken() {
+    const clientId = "ea11311d67e048869c710972a24e46be";
+    const clientSecret = "358d7f3fdc2e4353b8b4e9e0af646faf";
+
+    const response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            'grant_type': 'client_credentials',
+            'client_id': clientId,
+            'client_secret': clientSecret
+        })
+    });
+
+    const data = await response.json();
+    const accessToken = data.access_token;
+    return accessToken;
+}
+
+const clientId = "ea11311d67e048869c710972a24e46be";
+const redirectUri = "http://127.0.0.1:8000/callback";
+
+let player;
+
+async function setupSpotifyPlayer(accessToken) {
+    if (window.Spotify) {
+        player = new Spotify.Player({
             name: 'Flopify Web Player',
-            getOAuthToken: (cb) => { cb(token); }
+            getOAuthToken: (callback) => { callback(accessToken); }
         });
 
         player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-
-            // Lecture de la piste
-            fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
-                method: 'PUT',
-                body: JSON.stringify({ uris: [spotifyUri] }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
+            console.log('Spotify Web Playback SDK ready');
         });
 
         player.connect();
-    } else {
-        console.error('Spotify SDK not loaded');
     }
 }
+
+async function playSpotifyTrack(spotifyUri) {
+    if (!player) {
+        console.error("Spotify player n'est pas prêt.");
+        return;
+    }
+
+    const deviceId = player._options.id;
+    const url = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
+
+    fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify({ uris: [spotifyUri] }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        },
+    }).catch((err) => {
+        console.error('Erreur lors de la lecture de la piste Spotify:', err);
+    });
+}
+
+(async () => {
+    const access_token = await fetchAccessToken();
+    await setupSpotifyPlayer(access_token);
+})();
+
+
+
 
 
 </script>
