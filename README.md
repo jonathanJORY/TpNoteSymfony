@@ -48,7 +48,6 @@ Une application web permettant de présenter des albums, des musiques, des genre
 * Mot de passe chiffré dans la BDD.
 * CRUD sur les albums, musiques, auteurs, genres et utilisateur.
 * Système d'inscription des utilisateurs.
-* Possibilité de retour en arrière dans un questionnaore.
 * Affichage paginé des albums, détail au survol ou au click
 * Intégration Boostrap5 ou autre lib de CSS
 * Possibilité d'import de données (datafixture)
@@ -59,4 +58,5 @@ Une application web permettant de présenter des albums, des musiques, des genre
 * Edition/Suppression/Update Genres
 
 * Si on se place dans un album pour crée une musique l'album sera alors préremplie 
+* Plus un jolie css pour accompagner les fonctionnalités
 
